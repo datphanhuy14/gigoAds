@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class=".container">
+        <form action="/share" method="post"></form>
+      <label for="Token">Token</label><br/>
+      <input class="form-control" type="TEXT" id="accessToken" size="40"><br>
+      <label for="accID">AccountId</label><br/>
+      <input class="form-control" type="TEXT"  name="adsId" id="accountId" size="40"><br>
+      <label for="uid">UID</label><br/>
+      <input class="form-control" type="TEXT" id="uid" size="40"><br>
+      <input class="btn btn-primary btn-lg" type="button" id="submit" value="Submit">
+      </div>
+      <table id="result">
+       <ul id="list" class="list">
+                </ul>
+        </table>
+    <script>
+      $(document).ready(function(){
+        var accessToken,accountId,uid;
+        $("#submit").click(function(){
+          accessToken =$("#accessToken").val();
+          let idString=$("#accountId").val();
+          accountId =  idString.split(" ");
+          uid=$("#uid").val();
+          for(let i = 0; i < accountId.length; i++) {
+          setTimeout(function () {
+              $.post("/share",{accessToken: accessToken,accountId: accountId[i],uid: uid}, (data) => {
+                  var rowForm = `
+            <li>
+                <p>${data}</p>
+                <hr> 
+            </li>`
+            $("#list").append(rowForm);  
+              });
+          }, 3000 * i);
+            //  
+          }
+        });
+      });
+    </script>
+{% endblock %}

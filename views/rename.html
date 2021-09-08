@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+{% block content %}
+      <div class=".container">
+        <form action="/rename" method="post"></form>
+      <label for="Token">Token</label><br/>
+      <input class="form-control" type="TEXT" id="accessToken" size="40"><br>
+      <label for="accID">AccountId</label><br/>
+      <input class="form-control" type="TEXT"  name="adsId" id="accountId" size="40"><br>
+      <label for="uid">Name</label><br/>
+      <input class="form-control" type="TEXT" id="name" size="40"><br>
+      <input class="btn btn-seconda btn-lg" type="button" id="submit" value="Submit">
+      </div>
+    <script>
+      $(document).ready(function(){
+        var accessToken,accountId,name;
+        $("#submit").click(function(){
+          accessToken =$("#accessToken").val();
+          let idString=$("#accountId").val();
+          console.log(idString)
+          accountId =  idString.split(" ");
+          console.log(accountId);
+          name=$("#name").val();
+          for(let i = 0; i < accountId.length; i++) { 
+            accountId =  idString.split(" ");
+            $.post("/rename",{accessToken: accessToken,accountId: accountId[i],name: name+' '+[i+1]}, function(data){
+            if(data === 'yes') {
+                alert("success");
+              }
+          });
+          console.log(accountId[i]);
+        }
+       
+        });
+      });
+    </script>
+{% endblock %}
